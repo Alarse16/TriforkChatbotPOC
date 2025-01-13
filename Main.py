@@ -5,7 +5,6 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 import os
 import json
-import subprocess
 from ImageHandler import read_images
 from StorageHandler import embed_and_store_documents
 import google.generativeai as genai
