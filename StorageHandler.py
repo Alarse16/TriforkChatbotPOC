@@ -1,13 +1,13 @@
 import os
 import faiss
-import numpy as np
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings
+import google.generativeai as genai
 import pandas as pd
 from tqdm import tqdm
 
-threshold = 1.22
+genai.configure(api_key="AIzaSyChjMzI1Pj2EhhJysR4hSI9IvCB1Aa1k8M")
+threshold = 0.8
 
 # Function to load text files
 def load_text_files(directory):
@@ -65,9 +65,12 @@ def embed_and_store_documents(text_dir, output_file='document_dataset.csv'):
     return df  # You can return the DataFrame if you want to work with it after saving
 
 def query_function(txt):
-    # Initialize Ollama embeddings
-    ollama_embeddings = OllamaEmbeddings(model="llama3")
-    return ollama_embeddings.embed_query(txt)
+    # Return the embeddings using Google Generative AI's embedding model
+    embedding_response = genai.embed_content(
+        model="models/text-embedding-004",  # Assuming this is the correct model name
+        content=txt  # Single chunk of text
+    )
+    return np.array(embedding_response['embedding'])  # Ensure the embedding is returned as a NumPy array
 
 import numpy as np
 
@@ -80,7 +83,7 @@ def query_faiss(index, query_text, metadata, chunks, k=5):
     D, I = index.search(query_embedding.astype(np.float32), k)  # D = distances, I = indices
 
     closest_distance = D[0][0]
-
+    print(closest_distance)
     # If closest distance is above threshold, return a default message
     if closest_distance > threshold:
         return "//insouciant knowledge//", metadata[I[0][0]]['file_name']

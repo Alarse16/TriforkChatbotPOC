@@ -1,0 +1,10 @@
+faiss-cpu~=1.9.0.post1
+pandas~=2.2.3
+protobuf~=5.29.3
+langchain-core~=0.3.29
+opencv-python~=4.10.0.84
+pytesseract~=0.3.13
+tqdm~=4.67.1
+numpy~=2.2.1
+langchain-community~=0.3.14
+langchain~=0.3.14

@@ -1,5 +1,3 @@
-from langchain_ollama import OllamaLLM
-from langchain_core.prompts import ChatPromptTemplate
 from StorageHandler import query_faiss
 import faiss
 import pandas as pd
@@ -10,7 +8,9 @@ import json
 import subprocess
 from ImageHandler import read_images
 from StorageHandler import embed_and_store_documents
+import google.generativeai as genai
 
+genai.configure(api_key="AIzaSyChjMzI1Pj2EhhJysR4hSI9IvCB1Aa1k8M")
 
 # Function to load the FAISS index, metadata, and chunks from files
 def load_index_and_data(index_file='faiss_index.index', data_file='document_dataset.csv'):
@@ -38,21 +38,38 @@ When giving an answer, ALWAYS include the name of the file of the chunk describe
 Here is the conversation history: {context}
 """
 
-model = OllamaLLM(model="llama3")
-prompt = ChatPromptTemplate.from_template(template)
-chain = prompt | model
+model = genai.GenerativeModel("gemini-1.5-flash")
+# prompt = ChatPromptTemplate.from_template(template)
+# chain = prompt | model
 
 
-def llm_answer_to_promt(context, prompt):
-    knowledge, meta = query_faiss(index, prompt, metadata, chunks)
+def llm_answer_to_promt(context, question):
+    knowledge, meta = query_faiss(index, question, metadata, chunks)
+
     if knowledge == "//insouciant knowledge//":
         standartNoAnswer = "I do not have sufficient information to answer this question."
         return standartNoAnswer
     else:
-        return chain.invoke({"knowledge": knowledge,
-                               "meta": meta,
-                               "context": context,
-                               "question": prompt})
+        # Format the template with the parameters
+        prompt = template.format(
+            question=question,
+            knowledge=knowledge,
+            meta=meta,
+            context=context
+        )
+
+        # Use the model to generate content
+        response = str(model.generate_content(prompt))
+
+        # Find the position of the keyword
+        position = response.find("text") + 6
+        result = response[position:]
+
+        # Find the position of the first closing curly brace and slice the string
+        end_position = result.find("\\n")  # Include the closing brace
+        result = result[:end_position]
+
+        return result
 
 
 def send_message(event=None):
@@ -110,7 +127,7 @@ def mark_first_run_complete(config_file="config.json"):
 def install_dependencies():
     print("Installing dependencies...")
     # Example: Install a Python package
-    subprocess.run(["pip", "install", "faiss"])
+    subprocess.run(["pip", "install", "-r" , "requirements.txt"])
 
 
 def run_initial_setup():
