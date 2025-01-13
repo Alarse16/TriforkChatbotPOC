@@ -43,7 +43,7 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 # chain = prompt | model
 
 
-def llm_answer_to_promt(context, question):
+def llm_answer_to_promt(context, question, knowledge = ""):
     knowledge, meta = query_faiss(index, question, metadata, chunks)
 
     if knowledge == "//insouciant knowledge//":
