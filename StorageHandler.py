@@ -83,7 +83,6 @@ def query_faiss(index, query_text, metadata, chunks, k=5):
     D, I = index.search(query_embedding.astype(np.float32), k)  # D = distances, I = indices
 
     closest_distance = D[0][0]
-    print(closest_distance)
     # If closest distance is above threshold, return a default message
     if closest_distance > threshold:
         return "//insouciant knowledge//", metadata[I[0][0]]['file_name']

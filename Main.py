@@ -100,6 +100,13 @@ root.title("Kratos' Wisdom")
 chat_window = ScrolledText(root, wrap=tk.WORD, state=tk.DISABLED, height=30, width=100)
 chat_window.pack(padx=20, pady=10)
 
+chat_window.config(state=tk.NORMAL)
+chat_window.insert(tk.END,
+                   "I am knowledgeable about everything related to the PS2 \"God of War\" manual, and nothing else. Feel free to ask me anything. If I do not have the information you are seeking, I will let you know. \n")
+
+# Force UI update to show the user's message
+root.update_idletasks()
+
 # Input box
 input_box = tk.Entry(root, width=100)
 input_box.pack(padx=10, pady=5)
@@ -124,23 +131,14 @@ def mark_first_run_complete(config_file="config.json"):
         json.dump({"first_run": False}, file)
 
 
-def install_dependencies():
-    print("Installing dependencies...")
-    # Example: Install a Python package
-    subprocess.run(["pip", "install", "-r" , "requirements.txt"])
-
 
 def run_initial_setup():
     print("Running initial setup...")
     # Add any other setup tasks here
-    install_dependencies()
     read_images()
     embed_and_store_documents("readTextFiles")
     global index, metadata, chunks
     index, metadata, chunks = load_index_and_data()
-
-
-
 
 def main():
     config_file = "config.json"
