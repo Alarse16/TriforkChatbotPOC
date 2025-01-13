@@ -38,13 +38,6 @@ When giving an answer, ALWAYS include the name of the file of the chunk describe
 Here is the conversation history: {context}
 """
 
-template1 = """
-based os the information given here: {knowledge}
-answer the following question briefly, concisely, short and precise: {question}
-include the name of the {meta} text and where you got the information from. Present the text in a nice and readable way.
-Here is the conversation history: {context}
-"""
-
 model = OllamaLLM(model="llama3")
 prompt = ChatPromptTemplate.from_template(template)
 chain = prompt | model
