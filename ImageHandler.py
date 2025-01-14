@@ -3,6 +3,7 @@ import easyocr
 import os
 from tqdm import tqdm
 
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 def read_images():
     """
     Read images from the input directory, extract text using EasyOCR, and save the extracted text
