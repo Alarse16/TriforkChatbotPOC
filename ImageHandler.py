@@ -6,7 +6,7 @@ from tqdm import tqdm
 def read_images():
     """
     Read images from the input directory, extract text using EasyOCR, and save the extracted text
-    into text files in the output directory.
+    into text files in the output directory..
 
     This function leverages EasyOCR for text extraction and supports common image formats.
     """
