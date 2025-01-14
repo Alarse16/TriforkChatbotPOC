@@ -10,7 +10,7 @@ Dette projekt er en proof-of-concept (POC) til en Retrieval-Augmented Generation
 ### Komponenter
 1. **ImageHandler.py**:
    - Ekstraherer tekst fra billeder i et angivet inputbibliotek og gemmer som tekstfiler.
-   - Bruger Tesseract OCR og OpenCV.
+   - Bruger EasyOCR og OpenCV.
 
 2. **StorageHandler.py**:
    - Indlæser tekstdata, splitter i chunks, og skaber embeddings ved brug af en LLM.
