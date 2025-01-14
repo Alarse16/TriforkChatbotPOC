@@ -1,17 +1,17 @@
 import cv2
-import pytesseract
+import easyocr
 import os
 from tqdm import tqdm
 
 def read_images():
     """
-    Read images from the input directory, extract text using OCR, and save the extracted text
+    Read images from the input directory, extract text using EasyOCR, and save the extracted text
     into text files in the output directory.
 
-    This function leverages Tesseract OCR for text extraction and supports common image formats.
+    This function leverages EasyOCR for text extraction and supports common image formats.
     """
-    # Specify the path to your Tesseract-OCR installation
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    # Initialize the EasyOCR reader
+    reader = easyocr.Reader(['en'], gpu=True)  # Set `gpu=True` if a GPU is available for faster processing
 
     # Input directory containing image files
     input_directory = 'DataImages'
@@ -43,7 +43,10 @@ def read_images():
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         # Perform OCR on the image
-        text = pytesseract.image_to_string(gray)
+        result = reader.readtext(gray, detail=0)  # `detail=0` returns only the recognized text
+
+        # Combine extracted text into a single string
+        text = '\n'.join(result)
 
         # Generate the output file name
         output_file = os.path.join(output_folder, f"{os.path.splitext(file_name)[0]}.txt")
