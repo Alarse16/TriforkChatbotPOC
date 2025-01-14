@@ -22,7 +22,7 @@ Dette projekt er en proof-of-concept (POC) til en Retrieval-Augmented Generation
 
 ## Implementeringsdetaljer
 - **Værktøjer og biblioteker**:
-  - OCR: [Tesseract](https://github.com/tesseract-ocr/tesseract) og OpenCV.
+  - OCR: EasyOCR og OpenCV.
   - Indeksering: FAISS.
   - LLM: Google Generative AI via `google.generativeai` bibliotek.
   - GUI: Tkinter.
