@@ -121,25 +121,31 @@ def send_message(event=None):
     input_box.delete(0, tk.END)
     chat_window.see(tk.END)
 
-# Create the main application window
-root = tk.Tk()
-root.title("Kratos' Wisdom")
+def create_gui():
+    """
+    Create and display the main application window with chat functionality.
+    """
+    global root, chat_window, input_box, send_button
 
-# Chat display area
-chat_window = ScrolledText(root, wrap=tk.WORD, state=tk.DISABLED, height=30, width=100)
-chat_window.pack(padx=20, pady=10)
-chat_window.config(state=tk.NORMAL)
-chat_window.insert(tk.END, "I am knowledgeable about everything related to the PS2 'God of War' manual, and nothing else. Feel free to ask me anything. If I do not have the information you are seeking, I will let you know. \n")
-root.update_idletasks()
+    # Create the main application window
+    root = tk.Tk()
+    root.title("Kratos' Wisdom")
 
-# Input box
-input_box = tk.Entry(root, width=100)
-input_box.pack(padx=10, pady=5)
-input_box.bind("<Return>", send_message)
+    # Chat display area
+    chat_window = ScrolledText(root, wrap=tk.WORD, state=tk.DISABLED, height=30, width=100)
+    chat_window.pack(padx=20, pady=10)
+    chat_window.config(state=tk.NORMAL)
+    chat_window.insert(tk.END, "I am knowledgeable about everything related to the PS2 'God of War' manual, and nothing else. Feel free to ask me anything. If I do not have the information you are seeking, I will let you know. \n")
+    chat_window.config(state=tk.DISABLED)
 
-# Send button
-send_button = tk.Button(root, text="Ask question", command=send_message)
-send_button.pack(pady=5)
+    # Input box
+    input_box = tk.Entry(root, width=100)
+    input_box.pack(padx=10, pady=5)
+    input_box.bind("<Return>", send_message)
+
+    # Send button
+    send_button = tk.Button(root, text="Ask question", command=send_message)
+    send_button.pack(pady=5)
 
 # First Run Functions
 
@@ -180,6 +186,9 @@ def run_initial_setup():
     index, metadata, chunks = load_index_and_data()
 
 def main():
+    """
+    Main function to run the application.
+    """
     config_file = "config.json"
     if is_first_run(config_file):
         print("First run detected. Running setup...")
@@ -189,6 +198,7 @@ def main():
         print("Not the first run. Skipping setup.")
 
     # Run the application
+    create_gui()
     root.mainloop()
 
 if __name__ == "__main__":
