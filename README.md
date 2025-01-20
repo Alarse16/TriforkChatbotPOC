@@ -36,7 +36,6 @@ Dette projekt er en proof-of-concept (POC) til en Retrieval-Augmented Generation
 ### Krav
 - Python 3.10+ installeret.
 - Installer alle biblioteker i requirements.txt.
-- API-nøgle til Google Generative AI erstattes i Main.py, StorageHnadler.py og Tester.py (Dette er ikke nødventigt til og med 15/01/2025)
 
 ### Trin
 1. Kør **[Main.py](./Main.py)**. Den vil automatisk
